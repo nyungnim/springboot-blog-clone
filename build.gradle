@@ -1,17 +1,32 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.2.0'   // 스프링부트 플러그인
+    id 'io.spring.dependency-management' version '1.1.0'    // 의존성 자동 관리 플러그인
 }
 
-group = 'me.nyungnim'
+group = 'me.nyungnim'   // 지정한 그룹 이름
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+repositories {  // 의존성을 받을 저장소 지정
+    mavenCentral()  // 전 세계적으로 가장 널리 사용되는 공개 의존성 저장소
+    // 스프링 프레임워크와 같은 대부분의 라이브러리와 플러그인이 Maven Central에 호스팅
 }
 
-dependencies {
+dependencies { // 프로젝트 개발 시 필요한 기능의 의존성 입력
+    // testImplementation : 테스트 단계에서만 사용할 의존성을 추가
+    // implementation : 애플리케이션 실행 시 필요한 의존성을 추가
+
+    // JUnit BOM(Bill of Materials)을 사용해 JUnit 라이브러리의 버전을 일괄 관리
     testImplementation platform('org.junit:junit-bom:5.10.0')
+
+    // JUnit 5의 Jupiter API를 추가
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // 스프링 부트 애플리케이션이 HTTP 요청/응답을 처리할 수 있게 함
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 스프링 부트에서 제공하는 테스트 지원 라이브러리. -> Junit5, Mockito, Spring Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
