@@ -27,6 +27,16 @@ dependencies { // 프로젝트 개발 시 필요한 기능의 의존성 입력
 
     // 스프링 부트에서 제공하는 테스트 지원 라이브러리. -> Junit5, Mockito, Spring Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 스프링 데이터 JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // 인메모리 데이터베이스
+    runtimeOnly 'com.h2database:h2'
+    // 롬복 : 필드에 대해 Getter/Setter, 생성자, toString, equals, hashCode 등의 메서드를 자동으로 생성
+    // 컴파일 시에만 필요, 런타임에는 포함되지 않아야 하는 의존성 지정
+    compileOnly'org.projectlombok:lombok'
+    // 컴파일 시에 애너테이션을 처리할 때 사용하는 도구의 의존성 지정
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 test {
