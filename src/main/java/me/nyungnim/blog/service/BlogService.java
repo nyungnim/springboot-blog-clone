@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import me.nyungnim.blog.domain.Article;
 import me.nyungnim.blog.domain.repository.BlogRepository;
 import me.nyungnim.blog.dto.AddArticleRequest;
+import me.nyungnim.blog.dto.UpdateArticleRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,5 +52,17 @@ public class BlogService {
     public void delete(long id) {
         blogRepository.deleteById(id);
         // id에 해당하는 데이터가 없으면 EmptyResultDataAccessException 예외를 던짐
+    }
+
+    // repository를 사용해 글 수정
+    // 매칭한 메서드를 하나의 트랜잭션으로 묶는 역할
+    @Transactional
+    public Article update(long id, UpdateArticleRequest request) {
+        Article article = blogRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+
+        article.update(request.getTitle(), request.getContent());
+
+        return article;
     }
 }

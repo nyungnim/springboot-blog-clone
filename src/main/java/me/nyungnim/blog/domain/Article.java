@@ -38,6 +38,11 @@ public class Article {
         this.content = content;
     }
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     /*
         코드 변경을 한 이유 (아래 코드 전체 주석)
         => Lombok 애노테이션을 활용하여 코드의 간결성과 가독성 높임

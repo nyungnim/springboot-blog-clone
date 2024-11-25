@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.nyungnim.blog.domain.Article;
 import me.nyungnim.blog.dto.AddArticleRequest;
 import me.nyungnim.blog.dto.ArticleResponse;
+import me.nyungnim.blog.dto.UpdateArticleRequest;
 import me.nyungnim.blog.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,5 +67,13 @@ public class BlogApiController {
          * ResponseEntity를 직접 생성할 때, 추가적인 본문 데이터가 필요 없을 경우 사용된다.
          * ResponseEntity 객체를 본문이 없는 상태로 반환
          */
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable("id") long id, @RequestBody UpdateArticleRequest request) {
+        Article updatedArticle = blogService.update(id, request);
+
+        return ResponseEntity.ok()
+                .body(updatedArticle);
     }
 }
