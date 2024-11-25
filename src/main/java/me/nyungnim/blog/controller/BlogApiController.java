@@ -48,7 +48,8 @@ public class BlogApiController {
     }
 
     @GetMapping("/api/articles/{id}")
-    public ResponseEntity<ArticleResponse> findArticle(@PathVariable long id) {
+    // 매개변수 이름 손실 문제가 발생 -> @PathVariable 이름 명시적으로 변경
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable("id") long id) {
         Article article = blogService.findById(id);
 
         return ResponseEntity.ok()

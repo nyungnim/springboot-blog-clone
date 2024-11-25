@@ -114,10 +114,14 @@ class BlogApiControllerTest {
                 .build());
 
         // when
+        // HTTP GET 요청을 시뮬레이션 -> 컨트롤러의 동작을 테스트
         final ResultActions resultActions = mockMvc.perform(get(url)
+                // 클라이언트가 서버에 요청할 때 반환되는 응답데이터의 MIME 타입 지정 - JSON 형식
                 .accept(MediaType.APPLICATION_JSON));
 
         // then
+        // MockMvc로 실행한 요청의 결과를 ResultActions 객체로 캡처
+        // 응답 상태 코드, 응답 본문, 헤더 등 요청 결과를 검증하거나 활용할 수 있는 객체
         resultActions
                 // 응답 상태 코드가 200 OK인지 검증
                 .andExpect(status().isOk())
@@ -125,5 +129,28 @@ class BlogApiControllerTest {
                 .andExpect(jsonPath("$[0].content").value(content))
                 // 위와 동일 내용, title인지 검증
                 .andExpect(jsonPath("$[0].title").value(title));
+    }
+
+    @DisplayName("findArticle: 블로그 글 조회에 성공한다.")
+    @Test
+    public void findArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article savedArticle = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(get(url, savedArticle.getId()));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").value(content))
+                .andExpect(jsonPath("$.title").value(title));
     }
 }
