@@ -5,6 +5,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 /*
     왜 Getter만 제공하는가
@@ -12,6 +17,8 @@ import lombok.NoArgsConstructor;
     - Setter를 제공하면 외부에서 데이터를 임의로 수정할 수 있어 문제가 생길 수 있음
 */
 
+// 엔터티의 생성 및 수정 시간을 자동으로 감시하고 기록하기 위한 애너테이션 추가
+@EntityListeners(AuditingEntityListener.class)
 // JPA 엔티티임을 나타냄, JPA가 이 클래스를 기반으로 테이블을 생성하거나 조작한다.
 // 테이블명을 변경하고 싶으면 @Table(name="") 사용
 @Entity
@@ -42,6 +49,14 @@ public class Article {
         this.title = title;
         this.content = content;
     }
+
+    @CreatedDate // 엔터티가 생성될 때 생성시간 저장
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate   // 엔터티가 수정될 때 수정시간 저장
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     /*
         코드 변경을 한 이유 (아래 코드 전체 주석)

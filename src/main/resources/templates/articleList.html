@@ -13,12 +13,12 @@
 <div class="container">
   <div class="row-6" th:each="item: ${articles}"> <!-- article 개수만큼 반복 -->
     <div class="card">
-      <div class="card-header" th:text="${item.id}"> <!-- itemdml id 출력 -->
+      <div class="card-header" th:text="${item.id}"> <!-- item의 id 출력 -->
       </div>
       <div class="card-body">
         <h5 class="card-title" th:text="${item.title}"></h5>
         <p class="card-text" th:text="${item.content}"></p>
-        <a href="#" class="btn btn-primary">보러 가기</a>
+        <a th:href="@{/articles/{id}(id=${item.id})}" class="btn btn-primary">보러 가기</a>
       </div>
     </div>
     <br>

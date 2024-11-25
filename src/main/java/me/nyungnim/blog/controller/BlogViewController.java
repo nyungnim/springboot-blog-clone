@@ -1,11 +1,14 @@
 package me.nyungnim.blog.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.nyungnim.blog.domain.Article;
 import me.nyungnim.blog.dto.ArticleListViewResponse;
+import me.nyungnim.blog.dto.ArticleViewResponse;
 import me.nyungnim.blog.service.BlogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;    // Spring MVC에서 제공하는 Model 인터페이스의 경로
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -29,6 +32,14 @@ public class BlogViewController {
 
         // 뷰 리졸버가 articleList라는 이름의 템플릿(articleList.html 같은)을 찾아 렌더링한다.
         return "articleList";
+    }
+
+    @GetMapping("/articles/{id}")
+    public String getArticle(@PathVariable("id") long id, Model model) {
+        Article article = blogService.findById(id);
+        model.addAttribute("article", new ArticleViewResponse(article));
+
+        return "article";
     }
 
     /** 동작 방식

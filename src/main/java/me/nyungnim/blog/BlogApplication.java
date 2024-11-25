@@ -2,7 +2,10 @@ package me.nyungnim.blog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+// created_at, updated_at 자동 업데이트
+@EnableJpaAuditing
 // 스프링부트 어플리케이션임을 선언
 @SpringBootApplication
 public class BlogApplication {
