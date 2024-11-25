@@ -4,12 +4,16 @@ package me.nyungnim.blog.controller;
 import lombok.RequiredArgsConstructor;
 import me.nyungnim.blog.domain.Article;
 import me.nyungnim.blog.dto.AddArticleRequest;
+import me.nyungnim.blog.dto.ArticleResponse;
 import me.nyungnim.blog.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RequiredArgsConstructor    // final이 붙은 필드를 매개변수로 받는 생성자 자동 생성, 의존성을 생성자 주입 방식으로 설정 가능 ex: BlogService를 자동으로 주입받는 생성자 추가
 @RestController // HTTP Response Body에 객체 데이터를 JSON 형식으로 반환하는 컨트롤러
@@ -34,4 +38,15 @@ public class BlogApiController {
                 .body(savedArticle);
     }
     // 과정 정리 :JSON 데이터 -> DTO 객체로 매핑 -> DTO를 엔터티로 변환 -> 데이터베이스에 저장 -> 요청 성공 HTTP 상태코드 & 저장된 엔터티를 JSON으로 클라이언트에 반환
+
+    @GetMapping("/api/articles")
+    // 응답 본문에 ArticleResponse(DTO) 객체들의 리스트 포함
+    public ResponseEntity<List<ArticleResponse>> findAllArticles() {
+        List<ArticleResponse> articles = blogService.findAll()
+                .stream()  // 조회된 엔터티 리스트를 Stream으로 변환하여 데이터를 가공할 준비
+                .map(ArticleResponse::new) // 생성자를 호출해 각 Article 엔티티를 ArticleResponse DTO로 변환 작업
+                .toList();  // Stream 작업을 통해 변환된 데이터를 다시 리스트로 변환
+        return ResponseEntity.ok()
+                .body(articles);
+    }
 }

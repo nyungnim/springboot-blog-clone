@@ -6,6 +6,8 @@ import me.nyungnim.blog.domain.repository.BlogRepository;
 import me.nyungnim.blog.dto.AddArticleRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /*
     서비스 계층
     - 데이터베이스 접근 로직을 캡슐화, 컨트롤러와 데이터베이스 간의 결합도를 낮춤
@@ -24,5 +26,10 @@ public class BlogService {
         // save() : JPA의 save() 메서드를 호출해 엔티티를 데이터베이스에 저장
         // return : 저장된 Article Entity 객체 반환
         return blogRepository.save(request.toEntity());
+    }
+
+    public List<Article> findAll() {
+        // JPA 지원 메서드인 findAll()을 호출해 article 테이블에 저장되어 있는 모든 데이터를 조회
+        return blogRepository.findAll();
     }
 }
