@@ -8,25 +8,25 @@
 <body>
 <div class="p-5 mb-5 text-center</> bg-light">
     <h1 class="mb-3">Nana Blog</h1>
-    <h4 class="mb-4">Welcome to my Blog!</h4>
+    <h4 class="mb-3">Welcome to my Blog!</h4>
 </div>
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8">
             <article>
-                <!-- 블로그 글 id 추가 -->
+                <!-- 아이디 정보 저장 -->
                 <input type="hidden" id="article-id" th:value="${article.id}">
+
                 <header class="mb-4">
-                    <h1 class="fw-bolder mb-1" th:text="${article.title}"></h1>
-                    <div class="text-muted fst-italic mb-2" th:text="|Posted on ${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}|"></div>
+                    <input type="text" class="form-control" placeholder="제목" id="title" th:value="${article.title}">
                 </header>
                 <section class="mb-5">
-                    <p class="fs-5 mb-4" th:text="${article.content}"></p>
+                    <textarea class="form-control h-25" rows="10" placeholder="내용" id="content" th:text="${article.content}"></textarea>
                 </section>
-                <button type="button" id="modify-btn" th:onclick="|location.href='@{/new-article?id={articleId}(articleId=${article.id})}'|" class="btn btn-primary btn-sm">수정</button>
-                <button type="button" id="delete-btn"
-                        class="btn btn-secondary btn-sm">삭제</button>
+                <!-- id가 있을 때는 [수정] 버튼, 없을 때는 [등록]버튼이 보이게 함 -->
+                <button th:if="${article.id} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm">수정</button>
+                <button th:if="${article.id} == null" type="button" id="create-btn" class="btn btn-primary bt-sm">등록</button>
             </article>
         </div>
     </div>

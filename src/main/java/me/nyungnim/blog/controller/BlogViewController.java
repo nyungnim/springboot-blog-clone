@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;    // Spring MVC에서 제공하는 Model 인터페이스의 경로
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -49,4 +50,18 @@ public class BlogViewController {
      * 4. 변환된 데이터 리스트를 Model 객체에 추가
      * 5. 뷰 이름 articleList를 반환하여 해당 뷰에서 데이터를 렌더링
      */
+
+    @GetMapping("/new-article")
+    // long 타입은 원시타입으로 null 값을 가질 수 없기 때문에 id가 비어있거나 전달되지 않으면 예외가 발생한다.
+    // id키를 가진 쿼리 파라미터의 값을 id 변수에 매핑하였다 -> Id가 없을 수도 있기 때문이다. 따라서 null을 허용해야하기 때문에 Long을 사용해준다.
+    // value="id" 사용하는 이유는 HTTP 요청의 쿼리 파라미터 중 id 라는 이름의 값을 매핑한다.
+    public String newArticle(@RequestParam(value="id", required = false) Long id, Model model) {
+        if (id == null) {   // id가 없으면 생성
+            model.addAttribute("article", new ArticleViewResponse());
+        } else {    // id가 있으면 수정
+            Article article = blogService.findById(id);
+            model.addAttribute("article", new ArticleViewResponse(article));
+        }
+        return "newArticle";
+    }
 }
