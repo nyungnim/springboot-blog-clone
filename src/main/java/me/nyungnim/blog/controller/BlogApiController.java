@@ -55,4 +55,16 @@ public class BlogApiController {
         return ResponseEntity.ok()
                 .body(new ArticleResponse(article));
     }
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable("id") long id) {
+        blogService.delete(id);
+
+        return ResponseEntity.ok()
+                .build();
+        /** build가 여기서 사용되는 이유
+         * ResponseEntity를 직접 생성할 때, 추가적인 본문 데이터가 필요 없을 경우 사용된다.
+         * ResponseEntity 객체를 본문이 없는 상태로 반환
+         */
+    }
 }

@@ -45,4 +45,10 @@ public class BlogService {
                 // 아래 예외 : 잘못된 매개변수가 입력되었음을 나타냄
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
     }
+
+    // 블로그 글의 ID를 받은 뒤 JPA에서 제공하는 deleteById() 메서드를 이용해 DB에서 데이터 삭제
+    public void delete(long id) {
+        blogRepository.deleteById(id);
+        // id에 해당하는 데이터가 없으면 EmptyResultDataAccessException 예외를 던짐
+    }
 }
