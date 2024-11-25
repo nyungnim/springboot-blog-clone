@@ -20,6 +20,8 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -95,5 +97,33 @@ class BlogApiControllerTest {
         assertThat(articles.size()).isEqualTo(1);
         assertThat(articles.get(0).getTitle()).isEqualTo(title);
         assertThat(articles.get(0).getContent()).isEqualTo(content);
+    }
+
+    @DisplayName("findAllArticles: 블로그 글 목록 조회에 성공한다.") // 테스트 목적 표현
+    @Test
+    public void findAllArticles() throws Exception {
+        // given
+        final String url = "/api/articles";
+        final String title = "title";
+        final String content = "content";
+
+        // DB에 Article 엔터티 저장, Article.builder()를 통해 엔티티 객체 생성, JPA를 통해 DB에 삽입
+        blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(get(url)
+                .accept(MediaType.APPLICATION_JSON));
+
+        // then
+        resultActions
+                // 응답 상태 코드가 200 OK인지 검증
+                .andExpect(status().isOk())
+                // JSON 응답에서 첫 번째 객체의 content 필드 값이 content인지 검증
+                .andExpect(jsonPath("$[0].content").value(content))
+                // 위와 동일 내용, title인지 검증
+                .andExpect(jsonPath("$[0].title").value(title));
     }
 }
