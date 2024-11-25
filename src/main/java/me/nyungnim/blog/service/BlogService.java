@@ -32,4 +32,17 @@ public class BlogService {
         // JPA 지원 메서드인 findAll()을 호출해 article 테이블에 저장되어 있는 모든 데이터를 조회
         return blogRepository.findAll();
     }
+
+    public Article findById(long id) {
+        // JpaRepository가 제공하는 메서드, DB에서 ID를 기준으로 데이터 조회
+        /** 반환값
+         * - Optional<Article> - 조회 결과를 감싸는 Optional 객체
+         * - 데이터가 존재하면 Article 객체를 포함
+         * - 데이터 없으면 비어있는 Optional을 반환
+         */
+        return blogRepository.findById(id)
+                // Optional에 값이 있으면 반환 없으면 예외 던짐
+                // 아래 예외 : 잘못된 매개변수가 입력되었음을 나타냄
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+    }
 }
