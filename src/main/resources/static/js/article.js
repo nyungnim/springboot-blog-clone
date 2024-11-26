@@ -4,6 +4,9 @@ const deleteButton = document.getElementById('delete-btn');
 // 수정 기능, id가 modify-btn인 엘리먼트 조회
 const modifyButton = document.getElementById('modify-btn');
 
+// 등록 기능, id가 create-btn인 엘리먼트
+const createButton = document.getElementById("create-btn");
+
 if (deleteButton) {
     // 클릭 이벤트가 발생시 fetch() 메서드를 통해 /api/articles/DELETE 요청을 보내는 역할
     deleteButton.addEventListener('click', event => {
@@ -40,5 +43,24 @@ if (modifyButton) {
                 alert('수정이 완료되었습니다.');
                 location.replace(`/articles/${id}`);
             });
+    });
+}
+
+if (createButton) {
+    // 클릭 이벤트가 감지되면 생성 API 요청
+    createButton.addEventListener("click", (event) => {
+        fetch("/api/articles", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: document.getElementById("title").value,
+                content: document.getElementById("content").value,
+            }),
+        }).then(() => {
+            alert("등록 완료되었습니다.");
+            location.replace("/articles");
+        });
     });
 }
