@@ -49,6 +49,11 @@ dependencies { // 프로젝트 개발 시 필요한 기능의 의존성 입력
 
     // 스프링 시큐리티를 테스트하기 위한 의존성 추가
     testImplementation 'org.springframework.security:spring-security-test'
+
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1' // 자바 JWT 라이브러리
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'  // XML 문서와 Java 객체 간 매핑 자동화
 }
 
 test {
