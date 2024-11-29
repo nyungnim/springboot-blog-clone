@@ -58,7 +58,8 @@ public class WebSecurityConfig {
 
     // 인증 관리자 관련 설정, 사용자 정보를 가져올 서비스를 재정의하거나, 인증방법(ex: LDAP, JDBC 기반 인증 등)을 설정할 때 사용)
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailService userDetailService)
+    public AuthenticationManager authenticationManager(HttpSecurity http,
+                                                       BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailService userDetailService)
         throws Exception {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userService);    // 사용자 정보 서비스 설정, 이때 설정하는 서비스 클래스는 반드시 UserDetailsService를 상속받은 클래스여야 한다.
