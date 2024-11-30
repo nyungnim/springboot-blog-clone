@@ -14,6 +14,7 @@ import org.springframework.data.annotation.Id;
 @Entity
 public class RefreshToken {
 
+    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
